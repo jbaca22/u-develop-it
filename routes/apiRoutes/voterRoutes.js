@@ -102,5 +102,21 @@ router.delete('/voter/:id', (req, res) => {
     });
 });
 
+router.get('/votes', (req, res) => {
+    const sql = `GROUP BY candidate_id ORDER BY count DESC`;
+
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+          res.status(500).json({ error: err.message });
+          return;
+        }
+    
+        res.json({
+          message: 'success',
+          data: rows
+        });
+    });
+})
+
 module.exports = router;
 
